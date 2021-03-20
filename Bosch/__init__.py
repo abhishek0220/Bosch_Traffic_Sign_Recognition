@@ -4,6 +4,7 @@ from flask_restful import Api, Resource
 app = Flask(__name__)
 
 api = Api(app)
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
 @app.route('/')
 def hdfd():
