@@ -10,4 +10,4 @@ def hdfd():
     return f"Running... "
 
 from Bosch.Resources import basicAPIS
-api.add_resource(basicAPIS.TestAPI, '/test')
+api.add_resource(basicAPIS.sendImage, '/sendImage')
