@@ -1,6 +1,6 @@
 from flask import Flask, url_for
 from flask_restful import Api, Resource
-from Bosch.preprocess import load_and_preprocess
+#from Bosch.preprocess import load_and_preprocess
 
 app = Flask(__name__)
 
