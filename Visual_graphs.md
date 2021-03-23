@@ -8,3 +8,7 @@
 ## Dataset Visualization ( Samarth )
 * Per Class Frequency
 * Random Image Visualization for each class
+
+# Instructions
+* No need to train the model, just load weights from .h5 file
+* Save all the graphs in static folder

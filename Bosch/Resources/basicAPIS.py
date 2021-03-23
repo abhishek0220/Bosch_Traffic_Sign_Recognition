@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse, request
-
+from Bosch.push_image import PushImage
 # Send image API, Image in data dict
 # Add categories option
 class sendImage(Resource):
@@ -10,7 +10,7 @@ class sendImage(Resource):
         data = parser.parse_args()
         image = data['imageb64']
         rotation = data['rotation']
-        
+        pushImage(image, 1, rotation)
         # Push into database with appropriate rotation
         return {
             "message" : "Received Req successfully",

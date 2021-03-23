@@ -1,0 +1,1 @@
+# todo for each directory cnt make a plot
