@@ -12,8 +12,8 @@ app.config['PROPAGATE_EXCEPTIONS'] = True
 def hdfd():
     #input_data, input_labels = load_and_preprocess()
     test_model = testModel()
-    print(test_model.summary())
-    return f"Running... "
+    test_model.summary()
+    return f"Running..."
 
 from Bosch.Resources import basicAPIS
 api.add_resource(basicAPIS.sendImage, '/sendImage')

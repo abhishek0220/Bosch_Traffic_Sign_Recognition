@@ -63,7 +63,7 @@ classes = { 1:'Speed limit (20km/h)',
 
 
 def testModel():
-    model = keras.models.Sequential([    keras.layers.Conv2D(filters=16, kernel_size=(5,5), activation='relu', input_shape=(height,width,channels)),
+    model = keras.models.Sequential([    keras.layers.Conv2D(filters=16, kernel_size=(5,5), activation='relu', input_shape=(64,64,3)),
     keras.layers.Conv2D(filters=32, kernel_size=(3,3), activation='relu'),
     keras.layers.MaxPool2D(pool_size=(2, 2)),
     keras.layers.Dropout(rate=0.25),
