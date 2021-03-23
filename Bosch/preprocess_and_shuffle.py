@@ -53,4 +53,5 @@ def load_and_preprocess():
     image_data = image_data[shuffle_indexes]
     image_labels = image_labels[shuffle_indexes]
     
+    
     return image_data, image_labels
