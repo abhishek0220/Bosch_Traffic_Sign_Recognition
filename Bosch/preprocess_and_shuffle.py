@@ -48,4 +48,9 @@ def load_and_preprocess():
     end = time.time()
     print("It has taken", round(end-start,5), "seconds")
 
+    shuffle_indexes = np.arange(image_data.shape[0])
+    np.random.shuffle(shuffle_indexes)
+    image_data = image_data[shuffle_indexes]
+    image_labels = image_labels[shuffle_indexes]
+    
     return image_data, image_labels
