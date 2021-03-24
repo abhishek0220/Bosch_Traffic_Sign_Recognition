@@ -22,6 +22,8 @@
 
 `export FLASK_ENV=development`
 
+Run directly
+
 Make sure to run `pip freeze > requirements.txt` after installing any new package
 
 
