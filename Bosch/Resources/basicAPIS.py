@@ -47,7 +47,8 @@ class getAllClasses(Resource):
 
 class display_graph_pcf(Resource):
     def get(self):
-        img_path = plot_per_freq_class()
+        img_coord = plot_per_freq_class()
+        return {"coords" : img_coord}
         '''
         print(img_path)
         return {
