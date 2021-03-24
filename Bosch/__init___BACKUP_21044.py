@@ -54,7 +54,10 @@ def get_result():
 
 from Bosch.Resources import basicAPIS
 api.add_resource(basicAPIS.sendImage, '/sendImage')
+<<<<<<< HEAD
 api.add_resource(basicAPIS.display_misclassified, '/misclassified')
+=======
 api.add_resource(basicAPIS.getAllClasses, '/allClasses')
 api.add_resource(basicAPIS.display_graph_pcf, '/graphPCF')
 api.add_resource(basicAPIS.randomVisual, '/imgGrid')
+>>>>>>> 18a14bfca70738c5d1568ecf0a7268f4d9f78e37

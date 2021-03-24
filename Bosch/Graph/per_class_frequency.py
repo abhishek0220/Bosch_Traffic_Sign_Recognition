@@ -21,7 +21,12 @@ def plot_per_freq_class():
             if(f.endswith('.ppm') or f.endswith('.png') or f.endswith('.jpg') or f.endswith('.jpeg')):
                 cnt+=1
         freq.append(cnt)
-    
-    labels = ["Class"+str(i) for i in range(48)]
-    return list(zip(labels,freq))
+    coord = []
+    for i in range(48):
+        tem = {
+            'y' : freq[i],
+            'label' : "Class"+str(i)
+        }
+        coord.append(tem)
+    return coord
 

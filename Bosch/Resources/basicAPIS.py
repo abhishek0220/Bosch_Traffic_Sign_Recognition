@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse, request
+from Bosch.Graph.misclassified_samples import print_samples
 from flask import Response
 from Bosch.push_image import pushImage
 from Bosch.model import classes
@@ -33,11 +34,18 @@ class sendImage(Resource):
             'code' : 200
             }
         return Response("{'message': 'Some error occures'}", status=500, mimetype='application/json')
-        
     def get(self):
         return {"message" : "Please post method to send image"}
 
 
+class display_misclassified(Resource):
+    #add a function for each graph
+    def get(self):          #change to post
+        if (True): #replace with condition for misclassified samples
+            result = print_samples.basic(0); #instead of 0 pass the class chosen
+            return {"message" : result["message"]}
+
+    #misclassified samples - import the function from there and return the coordinates/graph
 class getAllClasses(Resource):
     def get(self):
         return {
@@ -47,14 +55,8 @@ class getAllClasses(Resource):
 
 class display_graph_pcf(Resource):
     def get(self):
-        img_path = plot_per_freq_class()
-        '''
-        print(img_path)
-        return {
-            "imgLink" : imgPathtoB64(img_path)
-        }
-        '''
-        return send_file(img_path, mimetype='image/png')
+        img_coord = plot_per_freq_class()
+        return {"coords" : img_coord, 'title' : 'Frequency Per Class'}
     
 class randomVisual(Resource):
     def get(self):
