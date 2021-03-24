@@ -48,14 +48,7 @@ class getAllClasses(Resource):
 class display_graph_pcf(Resource):
     def get(self):
         img_coord = plot_per_freq_class()
-        return {"coords" : img_coord}
-        '''
-        print(img_path)
-        return {
-            "imgLink" : imgPathtoB64(img_path)
-        }
-        '''
-        return send_file(img_path, mimetype='image/png')
+        return {"coords" : img_coord, 'title' : 'Frequency Per Class'}
     
 class randomVisual(Resource):
     def get(self):
