@@ -1,18 +1,15 @@
-import logging
-from flask import Flask
-import h5py
 from tensorflow import keras
 import os
 from PIL import Image
 import cv2
 import numpy as np
-import pandas as pd
-total_classes = 48
+
 height = 64
 width = 64
 # reconstructed_model = keras.models.load_model('../my_h5_model.h5')
 # model_loaded = load_model('/home/arya/Desktop/main/Sem6/inter_iit/code/Bosch_Traffic_Sign_Recognition/my_h5_model.h5')
 
+model = keras.models.load_model('Bosch/my_h5_model.h5')
 class print_samples:
     def basic(default_class = 0):     #change with user input for class labels
 
@@ -35,10 +32,10 @@ class print_samples:
         image_labels = np.array(image_labels)
 
         #uncomment this code
-        # predictions = model.predict(image_data)
+        predictions = model.predict(image_data)
 
         #comment this
-        predictions = np.random.randint(total_classes,size=len(image_labels))
+        # predictions = np.random.randint(total_classes,size=len(image_labels))
         predictions[0] = image_labels[0]
         #this portion
 
@@ -58,7 +55,7 @@ class print_samples:
             index = misclassified[i]
             final_images.append(image_data[index])
             final_labels.append(image_labels[index])
-            final_predictions.append(predictions[index])
+            final_predictions.append(np.argmax(predictions[index]))
 
         #misclassified contains the indices 
 
@@ -71,3 +68,5 @@ class print_samples:
         results["results"] = final_res
         # print(results["results"]["labels"],results["results"]["mispredictions"])
         return results
+#test
+# print(print_samples.basic(1))
