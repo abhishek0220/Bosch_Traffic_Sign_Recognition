@@ -29,8 +29,9 @@ def plotImages(classLabel):
         plt.subplot(int(image_to_display**0.5),int(image_to_display**0.5),i+1)
         im = cv2.imread(full_path+"/"+r[i])
         plt.imshow(im); plt.axis('off')
-    save_path = os.path.join('Bosch', 'static', 'random_'+str(classLabel) )
+    save_path = os.path.join('Bosch', 'static', 'random_'+str(classLabel)+'.png' )
     plt.savefig(save_path)
+    return save_path
     
 
 

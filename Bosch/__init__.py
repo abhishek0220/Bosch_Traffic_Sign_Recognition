@@ -56,3 +56,4 @@ from Bosch.Resources import basicAPIS
 api.add_resource(basicAPIS.sendImage, '/sendImage')
 api.add_resource(basicAPIS.getAllClasses, '/allClasses')
 api.add_resource(basicAPIS.display_graph_pcf, '/graphPCF')
+api.add_resource(basicAPIS.randomVisual, '/imgGrid')

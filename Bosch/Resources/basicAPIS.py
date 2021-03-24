@@ -3,6 +3,7 @@ from flask import Response
 from Bosch.push_image import pushImage
 from Bosch.model import classes
 from Bosch.Graph.per_class_frequency import plot_per_freq_class
+from Bosch.Graph.random_visualizer import plotImages
 import base64
 
 def imgPathtoB64(img_path: str):
@@ -46,6 +47,14 @@ class getAllClasses(Resource):
 class display_graph_pcf(Resource):
     def get(self):
         img_path = plot_per_freq_class()
+        return {
+            "imgLink" : imgPathtoB64(img_path)
+        }
+    
+class randomVisual(Resource):
+    def get(self):
+        classLabel = int(request.args.get('class', 1))-1
+        img_path = plotImages(classLabel)
         return {
             "imgLink" : imgPathtoB64(img_path)
         }
