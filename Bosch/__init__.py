@@ -32,7 +32,7 @@ def mainRoute():
 @app.route('/trainModel')
 def start_task():
     if not executor.futures.done('modelTrain'):
-        executor.submit_stored('model', trainModel)
+        executor.submit_stored('modelTrain', trainModel)
         return jsonify({"message" : "Training Started", 'result':'success'})
     return jsonify({"message" : "Already in trainig"})
     
