@@ -10,18 +10,15 @@ class sendImage(Resource):
         parser.add_argument('rotation', help = 'This field cannot be blank', required = True)
         parser.add_argument('class', help = 'This field cannot be blank', required = True)
         data = parser.parse_args()
-        image = data['imageb64']
-        rotation = data['rotation']
+        image = data['imageb64'].split(',')[1]
+        rotation = int(data['rotation'])
         imgClass = int(data['class']) - 1
         if(pushImage(image, imgClass, rotation) == True):
             return {
             "message" : "Img added successfully successfully",
             'code' : 200
             }
-        return {
-            "message" : "Some error occures",
-            'code' : 500
-        }
+        return Response("{'message': 'Some error occures'}", status=500, mimetype='application/json')
         
     def get(self):
         return {"message" : "Please post method to send image"}
