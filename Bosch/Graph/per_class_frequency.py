@@ -25,11 +25,7 @@ def plot_per_freq_class():
     pic_freq = pd.DataFrame(freq,columns=["class"])
     sns_plot = sns.countplot(x="class",palette="flare", data=pic_freq)
     sns_plot.set_xticklabels(sns_plot.get_xticklabels(),rotation=45, size = 6)
+
     path_to_save = os.path.join(os.environ['Bosch'], 'static', 'output.png' )
-    sns_plot.figure.savefig(path_to_save)
-
-
-
     
-
-
+    sns_plot.figure.savefig(path_to_save) 
