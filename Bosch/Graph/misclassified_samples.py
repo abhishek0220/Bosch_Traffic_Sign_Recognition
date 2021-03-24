@@ -32,17 +32,21 @@ class print_samples:
         image_labels = np.array(image_labels)
 
         #uncomment this code
-        predictions = model.predict(image_data)
-
+        preds = model.predict(image_data)
+        predictions=[]
+        for p in preds:
+            predictions.append(np.argmax(p))
+        predictions = np.array(predictions)
         #comment this
         # predictions = np.random.randint(total_classes,size=len(image_labels))
-        predictions[0] = image_labels[0]
+        # predictions[0] = image_labels[0]
         #this portion
-
+        # for i in predictions:
+        #     print(i)
         misclassified = (predictions==image_labels)
         misclassified = np.where(misclassified == False)
         misclassified = misclassified[0]  
-
+        #print(misclassified)
         final_images = []
         final_labels = []
         final_predictions = []      
@@ -55,7 +59,7 @@ class print_samples:
             index = misclassified[i]
             final_images.append(image_data[index])
             final_labels.append(image_labels[index])
-            final_predictions.append(np.argmax(predictions[index]))
+            final_predictions.append((predictions[index]))
 
         #misclassified contains the indices 
 
@@ -63,10 +67,14 @@ class print_samples:
         final_res["images"] = final_images
         final_res["labels"] = final_labels
         final_res["mispredictions"] = final_predictions
-
+        print(final_predictions)
         results["message"] = "Returning " + str(num_images) + " misclassified images"
         results["results"] = final_res
-        # print(results["results"]["labels"],results["results"]["mispredictions"])
+
+        im = Image.fromarray(final_res["images"][0])
+        im.save("misclassified.png")
+        #print(results["results"]["labels"],results["results"]["mispredictions"])
         return results
 #test
-# print(print_samples.basic(1))
+
+print(print_samples.basic(3))
