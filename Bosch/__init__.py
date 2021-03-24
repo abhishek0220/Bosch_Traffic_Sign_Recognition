@@ -3,6 +3,7 @@ from flask_restful import Api, Resource
 from Bosch.preprocess_and_split import load_and_preprocess, train_valid_splitting
 from Bosch.model import testModel, train_model
 import time
+from flask_cors import CORS, cross_origin
 from flask import jsonify
 from flask_executor import Executor
 
@@ -12,6 +13,7 @@ app = Flask(
     __name__,
     static_url_path='/static', 
     static_folder='static')
+cors = CORS(app)
 executor = Executor(app)
 api = Api(app)
 app.config['PROPAGATE_EXCEPTIONS'] = True
@@ -32,7 +34,8 @@ def trainModel():
 @app.route('/')
 def mainRoute():
     return f"Running..."
-    
+
+'''
 @app.route('/trainModel')
 def start_task():
     if not modelTraining:
@@ -47,6 +50,7 @@ def get_result():
         return jsonify({'status': executor.futures._state('modelTrain')})
     #future = executor.futures.pop('modelTrain')
     return jsonify({'status': 'completed', 'result': executor.futures.result('modelTrain')})
+'''
 
 from Bosch.Resources import basicAPIS
 api.add_resource(basicAPIS.sendImage, '/sendImage')
