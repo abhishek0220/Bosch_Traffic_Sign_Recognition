@@ -6,6 +6,7 @@ import time
 from flask import jsonify
 from flask_executor import Executor
 
+modelTraining = False
 
 app = Flask(
     __name__,
@@ -17,12 +18,15 @@ app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['EXECUTOR_PROPAGATE_EXCEPTIONS'] = True 
 
 def trainModel():
+    global modelTraining
+    modelTraining = True
     start = time.time()
     input_data, input_labels = load_and_preprocess()
     test_model = testModel()
     #test_model.summary()
     X_train, X_valid, y_train, y_valid = train_valid_splitting(input_data, input_labels)
     train_model(test_model, X_train, X_valid, y_train, y_valid)
+    modelTraining = False
     return f"{int(time.time()-start)}s"
 
 @app.route('/')
@@ -31,7 +35,7 @@ def mainRoute():
     
 @app.route('/trainModel')
 def start_task():
-    if not executor.futures.done('modelTrain'):
+    if not modelTraining:
         executor.submit_stored('modelTrain', trainModel)
         return jsonify({"message" : "Training Started", 'result':'success'})
     return jsonify({"message" : "Already in trainig"})
