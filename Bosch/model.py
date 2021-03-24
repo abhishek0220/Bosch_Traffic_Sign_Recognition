@@ -82,12 +82,9 @@ def train_model(model, X_train, X_valid, y_train, y_valid):
     keras.backend.clear_session() # clearing session
     np.random.seed(42) # generating random seed
     tf.random.set_seed(42) # set.seed function helps reuse same set of random variables
-
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-
     epochs = 4
     history = model.fit(X_train, y_train, batch_size=32, epochs=epochs,validation_data=(X_valid, y_valid))
-
     print("Training Done!!")
     model.save("my_h5_model.h5")
     print("Model Saved")
