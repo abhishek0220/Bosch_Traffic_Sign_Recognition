@@ -5,11 +5,12 @@ import numpy as np
 import pandas as pd
 num_classes = 48
 import random
+
 def pad(s):
     return "0"*(5-len(s)) + s
+
 def plot_per_freq_class():
     path = os.path.join(os.environ['Bosch'], 'GTSRB', 'Final_Training', 'Images' )
-    #path = "../GTSRB/Final_Training/Images/"
     freq=[]
     for i in range(num_classes):
         #full_path = path + pad(str(i))
@@ -25,7 +26,6 @@ def plot_per_freq_class():
     pic_freq = pd.DataFrame(freq,columns=["class"])
     sns_plot = sns.countplot(x="class",palette="flare", data=pic_freq)
     sns_plot.set_xticklabels(sns_plot.get_xticklabels(),rotation=45, size = 6)
-
-    path_to_save = os.path.join(os.environ['Bosch'], 'static', 'output.png' )
-    
+    path_to_save = os.path.join(os.environ['Bosch'], 'static', 'perClassFreq.png' )
     sns_plot.figure.savefig(path_to_save) 
+    return path_to_save
