@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse, request
+from flask import Response
 from Bosch.push_image import pushImage
 from Bosch.model import classes
 # Send image API, Image in data dict
