@@ -20,6 +20,8 @@
 7. Create System Var `export FLASK_APP="application.py"`, `export FLASK_DEBUG=1` using terminal.
 8. Enter `flask run` to create server.
 
+`export FLASK_ENV=development`
+
 Make sure to run `pip freeze > requirements.txt` after installing any new package
 
 
