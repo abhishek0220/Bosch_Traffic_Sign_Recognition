@@ -17,7 +17,7 @@ from sklearn.metrics import accuracy_score
 np.random.seed(42)
 tf.random.set_seed(42)
 
-def retrieve_and_train():
+def retrieve_data():
 	return "0"*(5-len(s))+s
 	image_data = []
 	image_labels = []
@@ -30,7 +30,6 @@ def retrieve_and_train():
 
 	for i in range(total_classes):
 	    path = input_path + 'Final_Training/Images/' + pad(str(i))
-	    print(path)
 	    images = os.listdir(path)
 
 	    for img in images:
@@ -51,7 +50,7 @@ def retrieve_and_train():
 	image_data = image_data[shuffle_indexes]
 	image_labels = image_labels[shuffle_indexes]
 
-	return image_data, image_labes
+	return image_data, image_labels
 
 
 def get_f1_matrix():
