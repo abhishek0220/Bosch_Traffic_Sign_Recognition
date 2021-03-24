@@ -16,36 +16,32 @@ api = Api(app)
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['EXECUTOR_PROPAGATE_EXCEPTIONS'] = True 
 
-def runP():
+def trainModel():
+    start = time.time()
     input_data, input_labels = load_and_preprocess()
     test_model = testModel()
     #test_model.summary()
     X_train, X_valid, y_train, y_valid = train_valid_splitting(input_data, input_labels)
     train_model(test_model, X_train, X_valid, y_train, y_valid)
-    return "DONE"
-
+    return f"{int(time.time()-start)}s"
 
 @app.route('/')
 def mainRoute():
-    #input_data, input_labels = load_and_preprocess()
-    #test_model = testModel()
-    # test_model.summary()
-    #X_train, X_valid, y_train, y_valid = train_valid_splitting(input_data, input_labels)
-    #train_model(test_model, X_train, X_valid, y_train, y_valid)
-    executor.submit(runP)
     return f"Running..."
     
-@app.route('/s')
+@app.route('/trainModel')
 def start_task():
-    executor.submit_stored('calc_power', runP)
-    return jsonify({'result':'success'})
+    if not executor.futures.done('modelTrain'):
+        return jsonify({"message" : "Already in trainig"})
+    executor.submit_stored('model', trainModel)
+    return jsonify({"message" : "Training Started", 'result':'success'})
 
-@app.route('/g')
+@app.route('/modelStatus')
 def get_result():
-    if not executor.futures.done('calc_power'):
-        return jsonify({'status': executor.futures._state('calc_power')})
-    #future = executor.futures.pop('calc_power')
-    return jsonify({'status': 'completed', 'result': executor.futures.result('calc_power')})
+    if not executor.futures.done('modelTrain'):
+        return jsonify({'status': executor.futures._state('modelTrain')})
+    #future = executor.futures.pop('modelTrain')
+    return jsonify({'status': 'completed', 'result': executor.futures.result('modelTrain')})
 
 from Bosch.Resources import basicAPIS
 api.add_resource(basicAPIS.sendImage, '/sendImage')
