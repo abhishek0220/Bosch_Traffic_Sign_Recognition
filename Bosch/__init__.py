@@ -3,7 +3,10 @@ from flask_restful import Api, Resource
 from Bosch.preprocess_and_split import load_and_preprocess, train_valid_splitting
 from Bosch.model import testModel, train_model
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_url_path='/static', 
+    static_folder='static')
 
 api = Api(app)
 app.config['PROPAGATE_EXCEPTIONS'] = True
@@ -19,3 +22,4 @@ def hdfd():
 
 from Bosch.Resources import basicAPIS
 api.add_resource(basicAPIS.sendImage, '/sendImage')
+api.add_resource(basicAPIS.getAllClasses, '/allClasses')
