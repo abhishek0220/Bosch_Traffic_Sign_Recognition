@@ -13,7 +13,7 @@ def pad(s):
     return "0"*(5-len(s)) + s
 
 def plotImages(classLabel):
-    path = os.path.join('Bosch', 'GTSRB', 'Final_Training', 'Images' )
+    path = os.path.join(os.environ['Bosch'], 'GTSRB', 'Final_Training', 'Images' )
     full_path = os.path.join(path, pad(str(classLabel)))
     multipleImages = os.listdir(full_path)
     filterdImages=[]
@@ -29,7 +29,7 @@ def plotImages(classLabel):
         plt.subplot(int(image_to_display**0.5),int(image_to_display**0.5),i+1)
         im = cv2.imread(full_path+"/"+r[i])
         plt.imshow(im); plt.axis('off')
-    save_path = os.path.join('Bosch', 'static', 'random_'+str(classLabel)+'.png' )
+    save_path = os.path.join(os.environ['Bosch'], 'static', 'random_'+str(classLabel)+'.png' )
     plt.savefig(save_path)
     return save_path
     
