@@ -2,7 +2,7 @@
 ## Training Visualization
 * Classes v/s Accuracy ( Mayank )
 * History Graphs ( Done )
-* Misclassified Samples ( Arya)
+* Misclassified Samples ( Done)
 * Per-class F1 score Visualization ( Shreyas )
 
 ## Dataset Visualization ( Samarth )

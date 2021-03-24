@@ -19,3 +19,4 @@ def hdfd():
 
 from Bosch.Resources import basicAPIS
 api.add_resource(basicAPIS.sendImage, '/sendImage')
+api.add_resource(basicAPIS.display_misclassified, '/misclassified')
