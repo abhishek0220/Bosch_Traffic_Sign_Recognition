@@ -1,6 +1,6 @@
 # Visual Graphs
 ## Training Visualization
-* Classes v/s Accuracy ( Mayank )
+* Classes v/s Accuracy ( Done )
 * History Graphs ( Done )
 * Misclassified Samples ( Arya)
 * Per-class F1 score Visualization ( Shreyas )
