@@ -61,8 +61,35 @@ def get_f1_matrix():
 	confusion = confusion_matrix(y_test, y_pred)
 	
 	report = (classification_report(y_test, y_pred, target_names=['Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12', 'Class 13', 'Class 14', 'Class 15', 'Class 16', 'Class 17', 'Class 18', 'Class 19', 'Class 20', 'Class 21', 'Class 22', 'Class 23', 'Class 24', 'Class 25', 'Class 26', 'Class 27', 'Class 28', 'Class 29', 'Class 30', 'Class 31', 'Class 32', 'Class 33', 'Class 34', 'Class 35', 'Class 36', 'Class 37', 'Class 38', 'Class 39', 'Class 40', 'Class 41', 'Class 42', 'Class 43', 'Class 44', 'Class 45', 'Class 46', 'Class 47', 'Class 48'], output_dict=True))
-	with open('Bosch/static/classification_report.json', 'w') as fp:
-		json.dump(report, fp, indent=4) 
+	precision=[]
+	recall=[]
+	f1_score=[]
+	for i in range(1,49):
+		label = "Class "+str(i)
+		dummy = { "y":report[label]["precision"],
+				 "label":label }
+		precision.append(dummy)
+
+		dummy = { "y":report[label]["recall"],
+				 "label":label }
+		recall.append(dummy)
+
+		dummy = { "y":report[label]["f1-score"],
+				 "label":label }
+		f1_score.append(dummy)
+	
+	precision_coords={"coords":precision, "title":"Precison per class"}
+	recall_coords = {"coords":recall, "title":"Recall per class"}
+	f1_score_coords={"coords":f1_score, "title":"F1-score per class"}
+
+	with open('Bosch/static/precision.json', 'w') as fp:
+		json.dump(precision_coords, fp, indent=4)
+
+	with open('Bosch/static/recall.json', 'w') as fp:
+		json.dump(recall_coords, fp, indent=4) 
+	
+	with open('Bosch/static/f1_score.json', 'w') as fp:
+		json.dump(f1_score_coords, fp, indent=4)
 
 
-#(get_f1_matrix())
+(get_f1_matrix())
