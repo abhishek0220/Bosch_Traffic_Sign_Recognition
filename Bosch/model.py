@@ -9,6 +9,7 @@ import tensorflow as tf
 from tensorflow import keras
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+import json
 np.random.seed(42)
 tf.random.set_seed(42)
 
@@ -85,8 +86,10 @@ def train_model(model, X_train, X_valid, y_train, y_valid):
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     epochs = 4
     history = model.fit(X_train, y_train, batch_size=32, epochs=epochs,validation_data=(X_valid, y_valid))
+    with open('history.json', 'w') as f:
+        json.dump(history.history, f)
     print("Training Done!!")
     model.save("Bosch/my_h5_model.h5")
     print("Model Saved")
-    reconstructed_model = keras.models.load_model("my_h5_model.h5")
+    reconstructed_model = keras.models.load_model("Bosch/my_h5_model.h5")
     print("Model reconstructed!!")
