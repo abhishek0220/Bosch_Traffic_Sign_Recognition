@@ -40,10 +40,15 @@ class sendImage(Resource):
 
 class display_misclassified(Resource):
     #add a function for each graph
-    def get(self):          #change to post
-        if (True): #replace with condition for misclassified samples
-            result = print_samples.basic(0); #instead of 0 pass the class chosen
-            return {"message" : result["message"]}
+    def get(self):
+        classLabel = int(request.args.get('class', 1))-1
+        result = print_samples.basic(classLabel); #instead of 0 pass the class chosen
+        for i in range(len(result)):
+            result[i]['imgLink'] = imgPathtoB64(result[i]['ImageLoc'])
+            result[i]['correct_label'] += 1
+            result[i]['predicted_label'] += 1
+        return {"results" : result}
+            
 
     #misclassified samples - import the function from there and return the coordinates/graph
 class getAllClasses(Resource):
