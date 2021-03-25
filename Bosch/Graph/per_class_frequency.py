@@ -25,7 +25,7 @@ def plot_per_freq_class():
     for i in range(48):
         tem = {
             'y' : freq[i],
-            'label' : "Class"+str(i)
+            'label' : "Class"+str(i+1)
         }
         coord.append(tem)
     return coord
