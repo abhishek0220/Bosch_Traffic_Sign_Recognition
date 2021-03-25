@@ -80,9 +80,9 @@ class print_samples:
             x = {"ImageLoc":save_path, 
                  "correct_label":int(final_labels[i]),
                  "predicted_label":int(final_predictions[i]),
-                 "brightness":brightness,
-                 "contrast" : contrast,
-                 "sharpness":sharpness
+                 "brightness": f"{brightness:.4f}",
+                 "contrast" : f"{contrast:.4f}",
+                 "sharpness":f"{sharpness:.4f}" 
             }
             retval.append(x)
         #print(results["results"]["labels"],results["results"]["mispredictions"])
