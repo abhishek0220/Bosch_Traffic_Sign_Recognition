@@ -78,7 +78,7 @@ class SIFTVisual(Resource):
         parser.add_argument('per', help = 'This field cannot be blank', required = True)
         data = parser.parse_args()
         image_path_misclassified = data['path'] 
-        misclassified_class = int(data[per]) -1
+        misclassified_class = int(data['per']) -1
         img_path = show_SIFT_features.SIFT_compare(misclassified_class,image_path_misclassified)
         ret_val = {"img1":imagePathtoB64(img_path["Misclassified_Image"]), "img2":imagePathtoB64(img_path["Misclassified_for"])}
         return ret_val
