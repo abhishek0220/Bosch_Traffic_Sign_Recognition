@@ -4,7 +4,7 @@ from Bosch.preprocess_and_split import load_and_preprocess, train_valid_splittin
 from Bosch.model import testModel, train_model
 import time
 from flask_cors import CORS, cross_origin
-from flask import jsonify
+from flask import jsonify, request
 from flask_executor import Executor
 from Bosch.Graph.f1_score_per_class import get_f1_matrix
 
@@ -37,9 +37,17 @@ def trainModel(split_ratio):
 def mainRoute():
     return f"Running..."
 
-'''
 @app.route('/trainModel')
 def start_task():
+    global modelTraining
+    pkey = request.args.get('pkey', '').strip()
+    if(pkey != '1234'):
+        return jsonify({"message" : "Wrong Key", "status" : 401})
+    if(modelTraining == True):
+        modelTraining = False
+    else:
+        modelTraining = True
+    return jsonify({"message" : "Training Started", "status" : 200})
     if not modelTraining:
         executor.submit_stored('modelTrain', trainModel)
         return jsonify({"message" : "Training Started", 'result':'success'})
@@ -48,11 +56,13 @@ def start_task():
 
 @app.route('/modelStatus')
 def get_result():
+    global modelTraining
+    return jsonify({"running" : modelTraining})
     if not executor.futures.done('modelTrain'):
         return jsonify({'status': executor.futures._state('modelTrain')})
     #future = executor.futures.pop('modelTrain')
     return jsonify({'status': 'completed', 'result': executor.futures.result('modelTrain')})
-'''
+
 
 from Bosch.Resources import basicAPIS
 api.add_resource(basicAPIS.sendImage, '/sendImage')
