@@ -41,10 +41,11 @@ def mainRoute():
 def start_task():
     global modelTraining
     pkey = request.args.get('pkey', '').strip()
-    if(pkey != 'bosch1234'):
-        return jsonify({"message" : "Wrong Key", "status" : 401})
+    ratio = int(request.args.get('per', 20))
+    if(pkey != 'bosch1234' or ratio < 1 or ratio > 99):
+        return jsonify({"message" : "Wrong Key or invalid ratio", "status" : 401})
     if not modelTraining:
-        executor.submit_stored('modelTrain', trainModel)
+        executor.submit_stored('modelTrain', trainModel, ratio/100)
         return jsonify({"message" : "Training Started", 'result':'success'})
     return jsonify({"message" : "Already in trainig"})
     
