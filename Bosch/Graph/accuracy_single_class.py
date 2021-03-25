@@ -49,7 +49,6 @@ def get_accuracy_single_class(class_id):
 	for p in predictions:
 		ans.append(np.argmax(p))
 	image_label_preds = np.array(ans)
-	accuracy_score = accuracy_score(new_image_labels, image_label_preds)
-	return accuracy_score
-	
+	accuracy = accuracy_score(new_image_labels, image_label_preds)
+	return accuracy
 

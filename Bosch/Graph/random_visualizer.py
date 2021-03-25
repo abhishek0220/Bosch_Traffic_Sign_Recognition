@@ -1,14 +1,12 @@
-import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 import random
-import cv2
 import os
+from PIL import Image
 
 
 ## use the plotImages function with args as the class you want to initialize
 ## the image grid will be generated under static with name as random_{classLabel}
 
-image_to_display = 16
+image_to_display = 25
 def pad(s):
     return "0"*(5-len(s)) + s
 
@@ -23,15 +21,19 @@ def plotImages(classLabel):
             filterdImages.append(f)
     
     r = random.sample(filterdImages, image_to_display)
-    plt.figure(figsize=(20,20),facecolor='black',frameon=False)
-    plt.subplots_adjust(wspace=0, hspace=0) 
-    for i in range(image_to_display):
-        plt.subplot(int(image_to_display**0.5),int(image_to_display**0.5),i+1)
-        im = cv2.imread(full_path+"/"+r[i])
-        plt.imshow(im); plt.axis('off')
-    save_path = os.path.join(os.environ['Bosch'], 'static', 'random_'+str(classLabel)+'.png' )
-    plt.savefig(save_path)
-    return save_path
+    new_im = Image.new('RGB', (125,125))
+    idx  = 0
+    for i in range(0,125,25):
+        for j in range(0,125,25):
+            im = Image.open(full_path+"/"+r[idx])
+            im.thumbnail((25,25))
+            new_im.paste(im, (i,j))
+            idx += 1
+    path = os.path.join(os.environ['Bosch'], 'static', 'random_visualizer_' + str(classLabel)+".png")
+    new_im.save(path)
+    return path
+
+#plotImages(47)
     
 
 

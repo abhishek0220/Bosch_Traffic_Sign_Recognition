@@ -1,18 +1,15 @@
-import logging
-from flask import Flask
-import h5py
 from tensorflow import keras
 import os
 from PIL import Image
 import cv2
 import numpy as np
-import pandas as pd
-total_classes = 48
+
 height = 64
 width = 64
 # reconstructed_model = keras.models.load_model('../my_h5_model.h5')
 # model_loaded = load_model('/home/arya/Desktop/main/Sem6/inter_iit/code/Bosch_Traffic_Sign_Recognition/my_h5_model.h5')
 
+model = keras.models.load_model('Bosch/my_h5_model.h5')
 class print_samples:
     def basic(default_class = 0):     #change with user input for class labels
 
@@ -35,17 +32,21 @@ class print_samples:
         image_labels = np.array(image_labels)
 
         #uncomment this code
-        # predictions = model.predict(image_data)
-
+        preds = model.predict(image_data)
+        predictions=[]
+        for p in preds:
+            predictions.append(np.argmax(p))
+        predictions = np.array(predictions)
         #comment this
-        predictions = np.random.randint(total_classes,size=len(image_labels))
-        predictions[0] = image_labels[0]
+        # predictions = np.random.randint(total_classes,size=len(image_labels))
+        # predictions[0] = image_labels[0]
         #this portion
-
+        # for i in predictions:
+        #     print(i)
         misclassified = (predictions==image_labels)
         misclassified = np.where(misclassified == False)
         misclassified = misclassified[0]  
-
+        #print(misclassified)
         final_images = []
         final_labels = []
         final_predictions = []      
@@ -58,7 +59,7 @@ class print_samples:
             index = misclassified[i]
             final_images.append(image_data[index])
             final_labels.append(image_labels[index])
-            final_predictions.append(predictions[index])
+            final_predictions.append((predictions[index]))
 
         #misclassified contains the indices 
 
@@ -66,8 +67,47 @@ class print_samples:
         final_res["images"] = final_images
         final_res["labels"] = final_labels
         final_res["mispredictions"] = final_predictions
-
+        print(final_predictions)
         results["message"] = "Returning " + str(num_images) + " misclassified images"
         results["results"] = final_res
-        # print(results["results"]["labels"],results["results"]["mispredictions"])
-        return results
+
+        retval=[]
+        for i in range(num_images):
+            im = Image.fromarray(final_images[i])
+            save_path = 'Bosch/static/misclassified'+str(i)+'.png'
+            im.save(save_path)
+            brightness, contrast, sharpness = print_samples.calc_attributes(save_path)
+            x = {"ImageLoc":save_path, 
+                 "correct_label":int(final_labels[i]),
+                 "predicted_label":int(final_predictions[i]),
+                 "brightness":brightness,
+                 "contrast" : contrast,
+                 "sharpness":sharpness
+            }
+            retval.append(x)
+        #print(results["results"]["labels"],results["results"]["mispredictions"])
+        return retval
+    def calc_attributes(save_path):
+        im = Image.open(save_path)
+        greyscale_image = im.convert('L')
+        contrast = np.array(greyscale_image).std()
+        array = np.asarray(greyscale_image, dtype=np.int32)
+
+        gy, gx = np.gradient(array)
+        gnorm = np.sqrt(gx**2 + gy**2)
+        sharpness = np.average(gnorm)
+        
+        histogram = greyscale_image.histogram()
+        pixels = sum(histogram)
+        brightness = scale = len(histogram)
+
+        for index in range(0, scale):
+            ratio = histogram[index] / pixels
+            brightness += ratio * (-scale + index)
+        if(brightness == 255):
+            brightness = 1
+        else:
+            brightness = brightness / scale
+        return brightness,contrast,sharpness
+#test
+#print(print_samples.basic(1))
