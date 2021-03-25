@@ -76,7 +76,7 @@ class print_samples:
             im = Image.fromarray(final_images[i])
             save_path = 'Bosch/static/misclassified'+str(i)+'.png'
             im.save(save_path)
-            x = {"ImageLoc":save_path, "correct_label":final_labels[i],"predicted_label":final_predictions[i]}
+            x = {"ImageLoc":save_path, "correct_label":int(final_labels[i]),"predicted_label":int(final_predictions[i])}
             retval.append(x)
         #print(results["results"]["labels"],results["results"]["mispredictions"])
         return retval
