@@ -5,6 +5,7 @@ from Bosch.push_image import pushImage
 from Bosch.model import classes
 from Bosch.Graph.per_class_frequency import plot_per_freq_class
 from Bosch.Graph.random_visualizer import plotImages
+from Bosch.Graph.failing_particular import show_SIFT_features
 from flask import send_file
 import base64
 
@@ -43,7 +44,10 @@ class display_misclassified(Resource):
     def get(self):          #change to post
         if (True): #replace with condition for misclassified samples
             result = print_samples.basic(0); #instead of 0 pass the class chosen
-            return {"message" : result["message"]}
+            return {
+                "message" : result["message"],
+                "results" : result["results"]   
+            }
 
     #misclassified samples - import the function from there and return the coordinates/graph
 class getAllClasses(Resource):
@@ -67,4 +71,17 @@ class randomVisual(Resource):
             "imgLink" : imgPathtoB64(img_path)
         }
         '''
+        return send_file(img_path, mimetype='image/png')
+
+class SIFTVisual(Resource):
+    def get(self):
+        #uncomment this
+
+        # image_path_misclassified = str(request.args.get('img_path',1)) 
+        # misclassified_class = str(request.args.get('class',1)) -1
+        # img_path = show_SIFT_features.SIFT_compare(misclassified_class,image_path_misclassified)
+        
+        #to this
+
+        img_path = show_SIFT_features.SIFT_compare()  #comment this
         return send_file(img_path, mimetype='image/png')
