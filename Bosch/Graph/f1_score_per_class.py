@@ -1,6 +1,5 @@
 from numpy import loadtxt
 from sklearn.metrics import confusion_matrix
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.metrics import classification_report
 import numpy as np 
 import os
@@ -10,7 +9,8 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow import keras
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+
+import json
 
 
 def pad(s):
@@ -60,7 +60,9 @@ def get_f1_matrix():
 
 	confusion = confusion_matrix(y_test, y_pred)
 	
-	return((classification_report(y_test, y_pred, target_names=['Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12', 'Class 13', 'Class 14', 'Class 15', 'Class 16', 'Class 17', 'Class 18', 'Class 19', 'Class 20', 'Class 21', 'Class 22', 'Class 23', 'Class 24', 'Class 25', 'Class 26', 'Class 27', 'Class 28', 'Class 29', 'Class 30', 'Class 31', 'Class 32', 'Class 33', 'Class 34', 'Class 35', 'Class 36', 'Class 37', 'Class 38', 'Class 39', 'Class 40', 'Class 41', 'Class 42', 'Class 43', 'Class 44', 'Class 45', 'Class 46', 'Class 47', 'Class 48'], output_dict=True)))
+	report = (classification_report(y_test, y_pred, target_names=['Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12', 'Class 13', 'Class 14', 'Class 15', 'Class 16', 'Class 17', 'Class 18', 'Class 19', 'Class 20', 'Class 21', 'Class 22', 'Class 23', 'Class 24', 'Class 25', 'Class 26', 'Class 27', 'Class 28', 'Class 29', 'Class 30', 'Class 31', 'Class 32', 'Class 33', 'Class 34', 'Class 35', 'Class 36', 'Class 37', 'Class 38', 'Class 39', 'Class 40', 'Class 41', 'Class 42', 'Class 43', 'Class 44', 'Class 45', 'Class 46', 'Class 47', 'Class 48'], output_dict=True))
+	with open('Bosch/static/classification_report.json', 'w') as fp:
+		json.dump(report, fp, indent=4) 
 
 
-#print(get_f1_matrix())
+#(get_f1_matrix())
