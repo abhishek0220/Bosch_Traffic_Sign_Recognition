@@ -41,13 +41,8 @@ def mainRoute():
 def start_task():
     global modelTraining
     pkey = request.args.get('pkey', '').strip()
-    if(pkey != '1234'):
+    if(pkey != 'bosch1234'):
         return jsonify({"message" : "Wrong Key", "status" : 401})
-    if(modelTraining == True):
-        modelTraining = False
-    else:
-        modelTraining = True
-    return jsonify({"message" : "Training Started", "status" : 200})
     if not modelTraining:
         executor.submit_stored('modelTrain', trainModel)
         return jsonify({"message" : "Training Started", 'result':'success'})
@@ -58,10 +53,12 @@ def start_task():
 def get_result():
     global modelTraining
     return jsonify({"running" : modelTraining})
+    '''
     if not executor.futures.done('modelTrain'):
         return jsonify({'status': executor.futures._state('modelTrain')})
-    #future = executor.futures.pop('modelTrain')
+    future = executor.futures.pop('modelTrain')
     return jsonify({'status': 'completed', 'result': executor.futures.result('modelTrain')})
+    '''
 
 
 from Bosch.Resources import basicAPIS
