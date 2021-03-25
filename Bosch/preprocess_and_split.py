@@ -58,9 +58,9 @@ def load_and_preprocess():
     return image_data, image_labels
 
 
-def train_valid_splitting(image_data, image_labels):
+def train_valid_splitting(image_data, image_labels, split_ratio=0.2):
     total_classes = 48
-    X_train, X_valid, y_train, y_valid = train_test_split(image_data, image_labels, test_size=0.2, random_state=42, shuffle=True)
+    X_train, X_valid, y_train, y_valid = train_test_split(image_data, image_labels, test_size=split_ratio, random_state=42, shuffle=True)
 
 
     X_train = X_train/255

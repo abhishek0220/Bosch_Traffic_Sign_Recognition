@@ -6,6 +6,7 @@ import time
 from flask_cors import CORS, cross_origin
 from flask import jsonify
 from flask_executor import Executor
+from Bosch.Graph.f1_score_per_class import get_f1_matrix
 
 modelTraining = False
 
@@ -19,16 +20,17 @@ api = Api(app)
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['EXECUTOR_PROPAGATE_EXCEPTIONS'] = True 
 
-def trainModel():
+def trainModel(split_ratio):
     global modelTraining
     modelTraining = True
     start = time.time()
     input_data, input_labels = load_and_preprocess()
     test_model = testModel()
     #test_model.summary()
-    X_train, X_valid, y_train, y_valid = train_valid_splitting(input_data, input_labels)
+    X_train, X_valid, y_train, y_valid = train_valid_splitting(input_data, input_labels, split_ratio)
     train_model(test_model, X_train, X_valid, y_train, y_valid)
     modelTraining = False
+    get_f1_matrix()
     return f"{int(time.time()-start)}s"
 
 @app.route('/')

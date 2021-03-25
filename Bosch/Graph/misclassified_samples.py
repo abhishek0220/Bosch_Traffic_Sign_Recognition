@@ -11,6 +11,31 @@ width = 64
 
 model = keras.models.load_model('Bosch/my_h5_model.h5')
 class print_samples:
+    def brightness_code(val):
+        if(val<0.3):
+            return 'red'
+        elif(val<0.4):
+            return 'orange'
+        else:
+            return 'green'
+    
+    def contrast_code(val):
+        if(val<20 or val>90):
+            return 'red'
+        elif(val<30 or val>80):
+            return 'orange'
+        else:
+            return 'green'
+    
+
+    def sharpness_code(val):
+        if(val<10):
+            return 'red'
+        elif(val<20):
+            return 'orange'
+        else:
+            return 'green'
+
     def basic(default_class = 0):     #change with user input for class labels
 
         results=dict()
@@ -77,12 +102,16 @@ class print_samples:
             save_path = 'Bosch/static/misclassified'+str(i)+'.png'
             im.save(save_path)
             brightness, contrast, sharpness = print_samples.calc_attributes(save_path)
+            b_color, c_color, s_color = print_samples.brightness_code(brightness), print_samples.contrast_code(contrast), print_samples.sharpness_code(sharpness)
             x = {"ImageLoc":save_path, 
                  "correct_label":int(final_labels[i]),
                  "predicted_label":int(final_predictions[i]),
                  "brightness": f"{brightness:.4f}",
                  "contrast" : f"{contrast:.4f}",
-                 "sharpness":f"{sharpness:.4f}" 
+                 "sharpness":f"{sharpness:.4f}",
+                 "b_color":b_color,
+                 "c_color":c_color,
+                 "s_color":s_color
             }
             retval.append(x)
         #print(results["results"]["labels"],results["results"]["mispredictions"])
