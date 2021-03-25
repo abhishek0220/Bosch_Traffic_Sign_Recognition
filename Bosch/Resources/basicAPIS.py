@@ -67,9 +67,6 @@ class randomVisual(Resource):
     def get(self):
         classLabel = int(request.args.get('class', 1))-1
         img_path = plotImages(classLabel)
-        '''
         return {
             "imgLink" : imgPathtoB64(img_path)
         }
-        '''
-        return send_file(img_path, mimetype='image/png')

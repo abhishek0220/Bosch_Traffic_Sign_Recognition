@@ -29,7 +29,9 @@ def plotImages(classLabel):
             im.thumbnail((25,25))
             new_im.paste(im, (i,j))
             idx += 1
-    new_im.save("Bosch/static/random_visualizer"+str(classLabel)+".png")
+    path = os.path.join(os.environ['Bosch'], 'static', 'random_visualizer_' + str(classLabel)+".png")
+    new_im.save(path)
+    return path
 
 #plotImages(47)
     
