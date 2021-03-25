@@ -71,10 +71,15 @@ class print_samples:
         results["message"] = "Returning " + str(num_images) + " misclassified images"
         results["results"] = final_res
 
-        im = Image.fromarray(final_res["images"][0])
-        im.save("misclassified.png")
+        retval=[]
+        for i in range(num_images):
+            im = Image.fromarray(final_images[i])
+            save_path = 'Bosch/static/misclassified'+str(i)+'.png'
+            im.save(save_path)
+            x = {"ImageLoc":save_path, "correct_label":final_labels[i],"predicted_label":final_predictions[i]}
+            retval.append(x)
         #print(results["results"]["labels"],results["results"]["mispredictions"])
-        return results
+        return retval
 #test
 
-print(print_samples.basic(3))
+#print(print_samples.basic(3))
