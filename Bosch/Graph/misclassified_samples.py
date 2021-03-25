@@ -76,10 +76,38 @@ class print_samples:
             im = Image.fromarray(final_images[i])
             save_path = 'Bosch/static/misclassified'+str(i)+'.png'
             im.save(save_path)
-            x = {"ImageLoc":save_path, "correct_label":int(final_labels[i]),"predicted_label":int(final_predictions[i])}
+            brightness, contrast, sharpness = print_samples.calc_attributes(save_path)
+            x = {"ImageLoc":save_path, 
+                 "correct_label":int(final_labels[i]),
+                 "predicted_label":int(final_predictions[i]),
+                 "brightness":brightness,
+                 "contrast" : contrast,
+                 "sharpness":sharpness
+            }
             retval.append(x)
         #print(results["results"]["labels"],results["results"]["mispredictions"])
         return retval
-#test
+    def calc_attributes(save_path):
+        im = Image.open(save_path)
+        greyscale_image = im.convert('L')
+        contrast = np.array(greyscale_image).std()
+        array = np.asarray(greyscale_image, dtype=np.int32)
 
-#print(print_samples.basic(3))
+        gy, gx = np.gradient(array)
+        gnorm = np.sqrt(gx**2 + gy**2)
+        sharpness = np.average(gnorm)
+        
+        histogram = greyscale_image.histogram()
+        pixels = sum(histogram)
+        brightness = scale = len(histogram)
+
+        for index in range(0, scale):
+            ratio = histogram[index] / pixels
+            brightness += ratio * (-scale + index)
+        if(brightness == 255):
+            brightness = 1
+        else:
+            brightness = brightness / scale
+        return brightness,contrast,sharpness
+#test
+#print(print_samples.basic(1))
