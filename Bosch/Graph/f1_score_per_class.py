@@ -81,7 +81,11 @@ def get_f1_matrix():
 	precision_coords={"coords":precision, "title":"Precison per class"}
 	recall_coords = {"coords":recall, "title":"Recall per class"}
 	f1_score_coords={"coords":f1_score, "title":"F1-score per class"}
+	accuracy_coords={"accuracy":report["accuracy"]}
 
+	with open('Bosch/static/accuracy.json', 'w') as fp:
+		json.dump(accuracy_coords, fp, indent=4)
+	
 	with open('Bosch/static/precision.json', 'w') as fp:
 		json.dump(precision_coords, fp, indent=4)
 
@@ -92,4 +96,4 @@ def get_f1_matrix():
 		json.dump(f1_score_coords, fp, indent=4)
 
 
-(get_f1_matrix())
+#(get_f1_matrix())
