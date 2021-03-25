@@ -86,7 +86,7 @@ def train_model(model, X_train, X_valid, y_train, y_valid):
     epochs = 4
     history = model.fit(X_train, y_train, batch_size=32, epochs=epochs,validation_data=(X_valid, y_valid))
     print("Training Done!!")
-    model.save("my_h5_model.h5")
+    model.save("Bosch/my_h5_model.h5")
     print("Model Saved")
     reconstructed_model = keras.models.load_model("my_h5_model.h5")
     print("Model reconstructed!!")
