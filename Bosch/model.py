@@ -83,6 +83,40 @@ def testModel():
     ])
     return model
 
+def resnet_model():
+
+    applications.resnet50.ResNet50(weights= None, include_top=False, input_shape= (64,64,3))
+    x = base_model.output
+    x = GlobalAveragePooling2D()(x)
+    x = Dropout(0.5)(x)
+    predictions = Dense(num_classes, activation= 'softmax')(x)
+    model = Model(inputs = base_model.input, outputs = predictions)
+
+    return model
+
+def inception_model():
+
+    applications.InceptionV3(weights= None, include_top=False, input_shape= (64,64,3))
+    x = base_model.output
+    x = GlobalAveragePooling2D()(x)
+    x = Dropout(0.5)(x)
+    predictions = Dense(num_classes, activation= 'softmax')(x)
+    model = Model(inputs = base_model.input, outputs = predictions)
+
+    return model
+
+
+def mobilenet_model():
+
+    applications.MobileNetV2(weights= None, include_top=False, input_shape= (64,64,3))
+    x = base_model.output
+    x = GlobalAveragePooling2D()(x)
+    x = Dropout(0.5)(x)
+    predictions = Dense(num_classes, activation= 'softmax')(x)
+    model = Model(inputs = base_model.input, outputs = predictions)
+
+    return model
+
 def train_model(model, X_train, X_valid, y_train, y_valid):
     keras.backend.clear_session() # clearing session
     np.random.seed(42) # generating random seed
