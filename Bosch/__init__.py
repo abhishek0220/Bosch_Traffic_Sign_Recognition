@@ -7,6 +7,7 @@ from flask_cors import CORS, cross_origin
 from flask import jsonify, request
 from flask_executor import Executor
 from Bosch.Graph.f1_score_per_class import get_f1_matrix
+from Bosch.test_accuracy import test_accuracy1
 
 modelTraining = False
 
@@ -20,7 +21,7 @@ api = Api(app)
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['EXECUTOR_PROPAGATE_EXCEPTIONS'] = True 
 
-def trainModel(split_ratio):
+def trainModel(split_ratio, epochs = 4):
     global modelTraining
     modelTraining = True
     start = time.time()
@@ -28,9 +29,10 @@ def trainModel(split_ratio):
     test_model = testModel()
     #test_model.summary()
     X_train, X_valid, y_train, y_valid = train_valid_splitting(input_data, input_labels, split_ratio)
-    train_model(test_model, X_train, X_valid, y_train, y_valid)
+    train_model(test_model, X_train, X_valid, y_train, y_valid, epochs)
     modelTraining = False
     get_f1_matrix()
+    test_accuracy1()
     return f"{int(time.time()-start)}s"
 
 @app.route('/')

@@ -22,7 +22,7 @@ class show_SIFT_features():
 
         #fig=plt.figure("Comparing the image")
 
-        input_path = 'Bosch/Graph/misclassified.jpeg'
+        #input_path = 'Bosch/Graph/misclassified.jpeg'
         save_path = os.path.join('Bosch', 'static')
         image = cv2.imread(input_path)
         gray1 = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
